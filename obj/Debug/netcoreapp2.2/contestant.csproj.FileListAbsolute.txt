@@ -1,0 +1,14 @@
+F:\.NET Core Project\contestant\bin\Debug\netcoreapp2.2\contestant.deps.json
+F:\.NET Core Project\contestant\bin\Debug\netcoreapp2.2\contestant.runtimeconfig.json
+F:\.NET Core Project\contestant\bin\Debug\netcoreapp2.2\contestant.runtimeconfig.dev.json
+F:\.NET Core Project\contestant\bin\Debug\netcoreapp2.2\contestant.dll
+F:\.NET Core Project\contestant\bin\Debug\netcoreapp2.2\contestant.pdb
+F:\.NET Core Project\contestant\obj\Debug\netcoreapp2.2\contestant.csprojAssemblyReference.cache
+F:\.NET Core Project\contestant\obj\Debug\netcoreapp2.2\contestant.csproj.CoreCompileInputs.cache
+F:\.NET Core Project\contestant\obj\Debug\netcoreapp2.2\contestant.RazorAssemblyInfo.cache
+F:\.NET Core Project\contestant\obj\Debug\netcoreapp2.2\contestant.RazorAssemblyInfo.cs
+F:\.NET Core Project\contestant\obj\Debug\netcoreapp2.2\contestant.AssemblyInfoInputs.cache
+F:\.NET Core Project\contestant\obj\Debug\netcoreapp2.2\contestant.AssemblyInfo.cs
+F:\.NET Core Project\contestant\obj\Debug\netcoreapp2.2\contestant.RazorTargetAssemblyInfo.cache
+F:\.NET Core Project\contestant\obj\Debug\netcoreapp2.2\contestant.dll
+F:\.NET Core Project\contestant\obj\Debug\netcoreapp2.2\contestant.pdb
