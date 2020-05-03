@@ -13,6 +13,9 @@ using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
 using contestant.Models;
 using contestant.Providers;
+using Microsoft.Extensions.FileProviders;
+using System.IO;
+using Microsoft.AspNetCore.Http;
 
 namespace contestant
 {
@@ -51,8 +54,16 @@ namespace contestant
             app.UseHttpsRedirection();
 
             app.UseCors(
-                options => options.WithOrigins("*").AllowAnyMethod()
+                options => options.WithOrigins("*").AllowAnyMethod().AllowAnyHeader()
             );
+
+            //file upload preview
+            app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Resources")),
+                RequestPath = new PathString("/Resources")
+            });
             app.UseMvc();
         }
     }

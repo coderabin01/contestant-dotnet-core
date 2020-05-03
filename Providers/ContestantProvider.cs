@@ -1,7 +1,9 @@
+using System;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System;
 using System.Linq;
+using System.Net.Http.Headers;
+using System.IO; 
 using contestant.Models;
 
 namespace contestant.Providers
@@ -47,6 +49,34 @@ namespace contestant.Providers
 
             return contestantList;
         }
+
+        /**
+            Uploads image and returns the file name
+         */
+        public string UploadFile(Contestant contestant)  
+        {  
+
+            var file = contestant.Photo;
+            var folderName = Path.Combine("Resources", "Images");
+            var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+    
+            if (file.Length > 0)
+            {
+                var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                var fullPath = Path.Combine(pathToSave, fileName);
+                var dbPath = Path.Combine(folderName, fileName);
+    
+                using (var stream = new FileStream(fullPath, FileMode.Create))
+                {
+                    file.CopyTo(stream);
+                }
+    
+                return fileName;
+            }else {
+                return null;
+            }
+                
+        }          
 
         ~ContestantProvider() 
         {

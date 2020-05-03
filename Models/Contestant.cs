@@ -1,5 +1,7 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System;
+using Microsoft.AspNetCore.Http;
 
 namespace contestant.Models
 {
@@ -15,11 +17,8 @@ namespace contestant.Models
         [MaxLength(50)]
         [Required]       
         public string Lastname {get;set;}
-
         public DateTime? DateOfBirth {get;set;}
-
         public bool? IsActive {get; set;}
-
         public int? DistrictId {get; set;}
         
         [MaxLength(50)]        
@@ -29,7 +28,8 @@ namespace contestant.Models
         [MaxLength(100)]
         public string Address {get; set;}
 
+        [NotMapped]
+        public IFormFile Photo {get; set;}
         public District District {get; set;}
-
     }
 }

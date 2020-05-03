@@ -9,7 +9,7 @@ namespace contestant.Controllers
 {
     [Route("api/contestant-rating")]
     [ApiController]
-    public class ContestantRatingController
+    public class ContestantRatingController: Controller
     {
         private ContestantContext _contestantContext;
         private ContestantProvider _contestantProvider;
@@ -29,6 +29,14 @@ namespace contestant.Controllers
                 return _contestantProvider.PopulateContestantListWithRatingByFromDateAndToDate(fromDate, toDate);
             }
 
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> AddContestantRating([FromBody] ContestantRating contestantRating) {
+            _contestantContext.ContestantRating.Add(contestantRating);
+            await _contestantContext.SaveChangesAsync();
+
+            return Json("Contestant Rating added Successfully");
         }
     }
 }

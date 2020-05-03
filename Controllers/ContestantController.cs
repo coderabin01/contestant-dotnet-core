@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System;  
 using System.Linq;
 using contestant.Models;
+using contestant.Providers;
 
 namespace contestant.Controllers
 {
@@ -10,10 +12,12 @@ namespace contestant.Controllers
     [ApiController]
     public class ContestantController: Controller
     {
-        private ContestantContext _contestantContext;        
-        public ContestantController(ContestantContext context)
+        private ContestantContext _contestantContext;
+        private ContestantProvider _contestantProvider;
+        public ContestantController(ContestantContext context, ContestantProvider provider)
         {
             _contestantContext = context;
+            _contestantProvider = provider;
         }
 
         [HttpGet]
@@ -31,12 +35,23 @@ namespace contestant.Controllers
                 District =  _contestantContext.District.Where(y => y.Id == x.DistrictId).FirstOrDefault()
             }).ToList();
 
+            return Ok(contestantList);
+        }
+
+        [HttpGet]
+        [Route("photos")]
+        public ActionResult<List<Contestant>> GetContestantPhotoList()
+        {
+            List<Contestant> contestantList = _contestantContext.Contestant.Where(x => x.IsActive == true).Where(x => x.PhotoUrl != null).ToList();
+
             return contestantList;
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddContestant([FromBody] Contestant contestant)
+        public async Task<ActionResult> AddContestant([FromForm]Contestant contestant)
         {
+            string photoName = "";
+
             if (contestant == null) {
                 return NotFound("Contestant data is not supplied");
             }
@@ -45,30 +60,44 @@ namespace contestant.Controllers
                 return BadRequest(ModelState);
             }
 
+            // photo is uploaded
+            if (contestant.Photo != null) {
+                photoName = _contestantProvider.UploadFile(contestant); 
+                contestant.PhotoUrl = photoName;
+            }
+
             _contestantContext.Add(contestant);
             await _contestantContext.SaveChangesAsync();
-            return Ok("Contestent added successfully");
-        }   
+
+            return Ok(new { status = true, message = "Contestent added successfully"});
+        }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateContestant(int id, [FromBody] Contestant contestant)
+        public async Task<IActionResult> UpdateContestant(int id, [FromForm]Contestant contestant)
         {
+            string photoName = "";
+
             if (!ModelState.IsValid) {
                 return BadRequest(ModelState);
+            }
+
+            // photo is uploaded
+            if (contestant.Photo != null) {
+                photoName = _contestantProvider.UploadFile(contestant); 
+                contestant.PhotoUrl = photoName;
             }
 
             contestant.Id = id;
             _contestantContext.Update(contestant);
             await _contestantContext.SaveChangesAsync();
 
-            return Ok("Contestent updated successfully");
+            return Ok(new { status = true, message = "Contestent updated successfully"});
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteContestant(int? id)
         {
             var contestant = await _contestantContext.Contestant.FindAsync(id);
-
             if (contestant == null)
             {
                 return NotFound("Contestant not found");
@@ -77,7 +106,7 @@ namespace contestant.Controllers
             _contestantContext.Contestant.Remove(contestant);
             await _contestantContext.SaveChangesAsync();
 
-            return Ok("Contestant deleted Successfully");
+            return Ok(new { status = true, message = "Contestant deleted Successfully"});
         }
 
 
