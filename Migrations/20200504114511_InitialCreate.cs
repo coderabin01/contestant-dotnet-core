@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace contestant.Migrations
 {
-    public partial class Update : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -29,9 +29,9 @@ namespace contestant.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Firstname = table.Column<string>(maxLength: 50, nullable: false),
                     Lastname = table.Column<string>(maxLength: 50, nullable: false),
-                    DateOfBirth = table.Column<DateTime>(nullable: false),
-                    IsActive = table.Column<bool>(nullable: false),
-                    DistrictId = table.Column<int>(nullable: false),
+                    DateOfBirth = table.Column<DateTime>(nullable: true),
+                    IsActive = table.Column<bool>(nullable: true),
+                    DistrictId = table.Column<int>(nullable: true),
                     Gender = table.Column<string>(maxLength: 50, nullable: true),
                     PhotoUrl = table.Column<string>(nullable: true),
                     Address = table.Column<string>(maxLength: 100, nullable: true)
@@ -44,7 +44,7 @@ namespace contestant.Migrations
                         column: x => x.DistrictId,
                         principalTable: "District",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(

@@ -17,6 +17,7 @@ namespace contestant.Models
         [MaxLength(50)]
         [Required]       
         public string Lastname {get;set;}
+        
         public DateTime? DateOfBirth {get;set;}
         public bool? IsActive {get; set;}
         public int? DistrictId {get; set;}

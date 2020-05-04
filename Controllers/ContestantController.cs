@@ -20,6 +20,9 @@ namespace contestant.Controllers
             _contestantProvider = provider;
         }
 
+        /**
+            API to get the list of all candidates
+         */
         [HttpGet]
         public ActionResult<List<Contestant>> GetContestantList()
         {
@@ -32,12 +35,16 @@ namespace contestant.Controllers
                 Gender = x.Gender,
                 PhotoUrl = x.PhotoUrl,
                 Address = x.Address,
+                DistrictId = x.DistrictId,
                 District =  _contestantContext.District.Where(y => y.Id == x.DistrictId).FirstOrDefault()
             }).ToList();
 
             return Ok(contestantList);
         }
 
+        /**
+            API to get photo list of active contestant
+         */
         [HttpGet]
         [Route("photos")]
         public ActionResult<List<Contestant>> GetContestantPhotoList()
@@ -45,6 +52,22 @@ namespace contestant.Controllers
             List<Contestant> contestantList = _contestantContext.Contestant.Where(x => x.IsActive == true).Where(x => x.PhotoUrl != null).ToList();
 
             return contestantList;
+        }
+
+        /**
+            API to get list of contestant from a particular district
+         */
+        [HttpGet]
+        [Route("district")]
+        public ActionResult<List<Contestant>> GetContestantListByDistrict([FromQuery(Name="address")] string address)
+        {
+            int districtId = _contestantContext.District.Where(x=> x.Name == address).Select(x => x.Id).FirstOrDefault();
+            if (districtId > 0) {
+                List<Contestant> contestantList = _contestantContext.Contestant.Where(x => x.DistrictId == 1).ToList();
+                return contestantList;
+            } else {
+                return NotFound(new {status = false, message = "No Contestant"});
+            }
         }
 
         [HttpPost]

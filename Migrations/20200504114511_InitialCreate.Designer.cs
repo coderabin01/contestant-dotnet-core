@@ -10,8 +10,8 @@ using contestant.Models;
 namespace contestant.Migrations
 {
     [DbContext(typeof(ContestantContext))]
-    [Migration("20200502132625_UpdateContestantRatingTable")]
-    partial class UpdateContestantRatingTable
+    [Migration("20200504114511_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
