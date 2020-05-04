@@ -64,7 +64,7 @@ namespace contestant.Controllers
         {
             int districtId = _contestantContext.District.Where(x=> x.Name == address).Select(x => x.Id).FirstOrDefault();
             if (districtId > 0) {
-                List<Contestant> contestantList = _contestantContext.Contestant.Where(x => x.DistrictId == 1).Select(x => new Contestant(){
+                List<Contestant> contestantList = _contestantContext.Contestant.Where(x => x.DistrictId == districtId).Select(x => new Contestant(){
                     Id = x.Id,
                     Firstname = x.Firstname,
                     Lastname = x.Lastname,
