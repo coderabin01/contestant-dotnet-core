@@ -18,7 +18,6 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.AspNetCore.Http;
 using Microsoft.OpenApi.Models;
 
-
 using contestant.Models;
 using contestant.Providers;
 
@@ -63,6 +62,7 @@ namespace contestant
                             Url = new Uri("https://example.com/license"),
                         }
                     });
+                    // c.EnableAnnotations();
             });
         }
 

@@ -24,6 +24,7 @@ namespace contestant.Controllers
             API to get the list of all candidates
          */
         [HttpGet]
+        // [SwaggerOperation(Summary = "List all contestant", Description = "Retrives all the contestant with their district")]
         public ActionResult<List<Contestant>> GetContestantList()
         {
             List<Contestant> contestantList = _contestantContext.Contestant.Select(x => new Contestant(){
@@ -63,7 +64,18 @@ namespace contestant.Controllers
         {
             int districtId = _contestantContext.District.Where(x=> x.Name == address).Select(x => x.Id).FirstOrDefault();
             if (districtId > 0) {
-                List<Contestant> contestantList = _contestantContext.Contestant.Where(x => x.DistrictId == 1).ToList();
+                List<Contestant> contestantList = _contestantContext.Contestant.Where(x => x.DistrictId == 1).Select(x => new Contestant(){
+                    Id = x.Id,
+                    Firstname = x.Firstname,
+                    Lastname = x.Lastname,
+                    DateOfBirth = x.DateOfBirth,
+                    IsActive = x.IsActive,
+                    Gender = x.Gender,
+                    PhotoUrl = x.PhotoUrl,
+                    Address = x.Address,
+                    DistrictId = x.DistrictId,
+                    District =  _contestantContext.District.Where(y => y.Id == x.DistrictId).FirstOrDefault()
+                }).ToList();
                 return contestantList;
             } else {
                 return NotFound(new {status = false, message = "No Contestant"});
